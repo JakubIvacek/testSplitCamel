@@ -29,8 +29,8 @@
               simple:
                 id: simple321e
                 expression: ${variable.delimited-string}
-            shareUnitOfWork: true
-            stopOnException: false
+            #shareUnitOfWork: true
+            #stopOnException: false
             steps:
               - log:
                   id: log0472
