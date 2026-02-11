@@ -14,6 +14,15 @@
                 exception:
                   - java.lang.RuntimeException
                 steps:
+                  - to:
+                      id: tob9cc
+                      description: Log data
+                      uri: log
+                      parameters:
+                        loggerName: Log everything
+                        showAll: true
+                        showAllProperties: true
+                        multiline: true
                   - log:
                       id: log1194
                       message: >-

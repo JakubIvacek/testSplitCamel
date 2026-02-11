@@ -29,7 +29,8 @@
               simple:
                 id: simple321e
                 expression: ${variable.delimited-string}
-            stopOnException: true
+            shareUnitOfWork: true
+            stopOnException: false
             steps:
               - log:
                   id: log0472
@@ -57,6 +58,13 @@
                               simple:
                                 id: simple8730
                                 expression: Im just inside split variable
+                        - setHeader:
+                            id: setHeaderd7bc
+                            name: splitHeader
+                            expression:
+                              simple:
+                                id: simple3386
+                                expression: Im header inside split
                         - log:
                             id: log3215
                             message: Matched dva trowing exception
