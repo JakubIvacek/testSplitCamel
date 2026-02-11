@@ -1,0 +1,30 @@
+- route:
+    id: main-route
+    from:
+      id: from5b1b
+      uri: timer
+      parameters:
+        repeatCount: "0"
+        timerName: Starter
+      steps:
+        - doTry:
+            id: doTryfaa3
+            doCatch:
+              - id: doCatch343c
+                exception:
+                  - java.lang.RuntimeException
+                steps:
+                  - log:
+                      id: log1194
+                      message: "Exception thrown as expected test from finally split "
+                  - stop:
+                      id: stopc7fd
+            steps:
+              - to:
+                  id: toef8d
+                  uri: direct
+                  parameters:
+                    name: test-split-exception-throw-from-finally
+        - log:
+            id: log28e9
+            message: "Exception not thrown as expected test from finally split "

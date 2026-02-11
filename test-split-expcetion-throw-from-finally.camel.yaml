@@ -1,0 +1,71 @@
+- route:
+    id: test-split-exception-throw-from-finally
+    from:
+      uri: "direct:test-split-exception-throw-from-finally"
+      steps:
+        - log:
+            id: logecbd
+            message: Route started successfully ${body}
+        - setVariable:
+            id: setVariable18aa
+            name: delimited-string
+            expression:
+              simple:
+                id: simpleb4b4
+                expression: jeden,dva,tri
+        - doTry:
+            id: doTry532d
+            doCatch:
+              - id: doCatch9810
+                exception:
+                  - java.lang.Exception
+                steps:
+                  - log:
+                      id: loga046
+                      message: Cautgh exception rethrowing
+                  - throwException:
+                      id: throwExceptionb852
+                      message: Retrowing Exception
+                      exceptionType: java.lang.RuntimeException
+            doFinally:
+              id: doFinally2356
+              steps:
+                - log:
+                    id: log6e5d
+                    message: finaly....
+                - split:
+                    id: splitcc07
+                    expression:
+                      simple:
+                        id: simple321e
+                        expression: ${variable.delimited-string}
+                    stopOnException: true
+                    steps:
+                      - log:
+                          id: log0472
+                          message: "In the loop: ${body}"
+                      - choice:
+                          id: choicea368
+                          when:
+                            - id: when6808
+                              expression:
+                                simple:
+                                  id: simplea2ed
+                                  expression: "'${body}' == 'dva'"
+                              steps:
+                                - log:
+                                    id: log3215
+                                    message: Matched dva trowing exception
+                                - throwException:
+                                    id: throwException0da1
+                                    message: Exception thrown
+                                    exceptionType: java.lang.RuntimeException
+                          otherwise:
+                            id: otherwise2879
+            steps:
+              - log:
+                  id: log71ca
+                  message: Throwing Exception
+        - log:
+            id: log5c0b
+            message: "After loop: ${body}"
