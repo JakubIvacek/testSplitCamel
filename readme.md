@@ -30,7 +30,25 @@ They appear empty in the main route, as if they were never set.
 
 This repository demonstrates that behavior clearly.
 
-Possible solution AggregationStrategy??
+### Solution AggregationStrategy
+
+With implementation of basic PropertyPreservingAggregationStrategy.java file which basically saves proprties from
+split communication even when exception is thrown. With AggStrat u could save even variables, headers...
+
+PropertyPreservingAggregationStrategy.java 
+
+U can register this file as Bean and add it as AggregationStrategy
+
+```bash
+- beans:
+    - name: propertyAggregator
+      type: PropertyPreservingAggregationStrategy
+
+...
+- split:
+    ...
+    - aggregationStrategy: propertyAggregator
+```
 
 ---
 
@@ -38,13 +56,18 @@ Possible solution AggregationStrategy??
 
 ### Exception propagation tests
 
-- `test-split-expcetion-throw.camel.yaml`
+- `test-split-exception-throw.camel.yaml`
 - `test-caller-exception-catch.camel.yaml`
 
 ### Exception propagation from `finally`
 
-- `test-split-expcetion-throw-from-finally.camel.yaml`
+- `test-split-exception-throw-from-finally.camel.yaml`
 - `test-caller-exception-catch-finally.camel.yaml`
+
+### Exception propagation with AggregationStrategy
+
+- `test-split-exception-throw-agg.camel.yaml`
+- `test-caller-exception-catch-agg.camel.yaml`
 
 ---
 
@@ -55,10 +78,15 @@ Make sure you have **Camel JBang** installed.
 ### Run basic exception propagation test:
 
 ```bash
-camel run test-split-expcetion-throw.camel.yaml test-caller-exception-catch.camel.yaml
+camel run test-split-exception-throw.camel.yaml test-caller-exception-catch.camel.yaml
 ```
 
 ### Run exception propagation test from finally:
 ```bash
-camel run test-split-expcetion-throw-from-finally.camel.yaml test-caller-exception-catch-finally.camel.yaml
+camel run test-split-exception-throw-from-finally.camel.yaml test-caller-exception-catch-finally.camel.yaml
+```
+
+### Run exception propagation test with AggregationStrategy:
+```bash
+camel run test-split-exception-throw-agg.camel.yaml test-caller-exception-catch-agg.camel.yaml PropertyPreservingAggregationStrategy.java application.properties
 ```

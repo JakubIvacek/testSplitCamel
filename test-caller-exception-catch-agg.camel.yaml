@@ -1,0 +1,41 @@
+- route:
+    id: main-route
+    from:
+      id: from5b1b
+      uri: timer
+      parameters:
+        repeatCount: "1"
+        timerName: Starter
+      steps:
+        - doTry:
+            id: doTryfaa3
+            doCatch:
+              - id: doCatch343c
+                exception:
+                  - java.lang.RuntimeException
+                steps:
+                  - to:
+                      id: tob9cc
+                      description: Log data
+                      uri: log
+                      parameters:
+                        loggerName: Log everything
+                        showAll: true
+                        showAllProperties: true
+                        multiline: true
+                  - log:
+                      id: log1194
+                      message: >-
+                        Exception thrown as expected test from split with AggStrategy \n OutsideProperty: ${exchangeProperty.outsideSplitProperty} \n SplitProperty:
+                        ${exchangeProperty.splitProperty} \n SplitVariable: ${variable.splitVariable}
+                  - stop:
+                      id: stopc7fd
+            steps:
+              - to:
+                  id: toef8d
+                  uri: direct
+                  parameters:
+                    name: test-split-exception-thrown-agg
+        - log:
+            id: log28e9
+            message: "Exception not thrown as expected test from split "

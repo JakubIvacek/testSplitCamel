@@ -1,0 +1,79 @@
+- route:
+    id: test-split-exception-thrown
+    from:
+      id: fromccf5
+      uri: direct
+      parameters:
+        name: test-split-exception-thrown
+      steps:
+        - log:
+            id: logecbd
+            message: Route started successfully ${body}
+        - setProperty:
+            id: setProperty-457e
+            name: outsideSplitProperty
+            expression:
+              simple:
+                id: simple6aca
+                expression: IM OUTSIDE SPLIT PROPERTY
+        - setVariable:
+            id: setVariable18aa
+            name: delimited-string
+            expression:
+              simple:
+                id: simpleb4b4
+                expression: jeden,dva,tri
+        - split:
+            id: splitcc07
+            expression:
+              simple:
+                id: simple321e
+                expression: ${variable.delimited-string}
+            #shareUnitOfWork: true
+            stopOnException: false
+            steps:
+              - log:
+                  id: log0472
+                  message: "In the loop: ${body}"
+              - choice:
+                  id: choicea368
+                  when:
+                    - id: when6808
+                      expression:
+                        simple:
+                          id: simplea2ed
+                          expression: "'${body}' == 'dva'"
+                      steps:
+                        - setProperty:
+                            id: setPropertya870
+                            name: splitProperty
+                            expression:
+                              simple:
+                                id: simple6aca
+                                expression: IM INSIDE SPLIT PROPERTY
+                        - setVariable:
+                            id: setVariable8c20
+                            name: splitVariable
+                            expression:
+                              simple:
+                                id: simple8730
+                                expression: Im just inside split variable
+                        - setHeader:
+                            id: setHeaderd7bc
+                            name: splitHeader
+                            expression:
+                              simple:
+                                id: simple3386
+                                expression: Im header inside split
+                        - log:
+                            id: log3215
+                            message: Matched dva trowing exception
+                        - throwException:
+                            id: throwException0da1
+                            message: Exception thrown
+                            exceptionType: java.lang.RuntimeException
+                  otherwise:
+                    id: otherwise2879
+        - log:
+            id: log5c0b
+            message: "After loop: ${body}"

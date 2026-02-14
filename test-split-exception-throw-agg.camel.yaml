@@ -1,10 +1,14 @@
+- beans:
+    - name: propertyAggregator
+      type: PropertyPreservingAggregationStrategy
+
 - route:
-    id: test-split-exception-thrown
+    id: test-split-exception-thrown-agg
     from:
       id: fromccf5
       uri: direct
       parameters:
-        name: test-split-exception-thrown
+        name: test-split-exception-thrown-agg
       steps:
         - log:
             id: logecbd
@@ -30,7 +34,8 @@
                 id: simple321e
                 expression: ${variable.delimited-string}
             #shareUnitOfWork: true
-            #stopOnException: false
+            stopOnException: false
+            aggregationStrategy: propertyAggregator
             steps:
               - log:
                   id: log0472
